@@ -1,11 +1,9 @@
-pub mod constants;
 pub mod error;
 pub mod instructions;
 pub mod state;
 
 use anchor_lang::prelude::*;
 
-pub use constants::*;
 pub use instructions::*;
 pub use state::*;
 
@@ -24,5 +22,9 @@ pub mod revvek_capstone {
     ) -> Result<()> {
         ctx.accounts.create_listing(base_price, &ctx.bumps)?;
         ctx.accounts.mint_to_vault(nft_name, nft_symbol, nft_uri)
+    }
+
+    pub fn bid_for_vehicle(ctx: Context<BidForVehicle>, bid_amount: u64) -> Result<()> {
+        ctx.accounts.bid(bid_amount, &ctx.bumps)
     }
 }
