@@ -27,4 +27,10 @@ pub mod revvek_capstone {
     pub fn bid_for_vehicle(ctx: Context<BidForVehicle>, bid_amount: u64) -> Result<()> {
         ctx.accounts.bid(bid_amount, &ctx.bumps)
     }
+
+    pub fn accept_bid(ctx: Context<AcceptBid>) -> Result<()> {
+        ctx.accounts.transfer_staked_amount()?;
+        ctx.accounts.tranfer_nft()?;
+        ctx.accounts.close_accounts()
+    }
 }
