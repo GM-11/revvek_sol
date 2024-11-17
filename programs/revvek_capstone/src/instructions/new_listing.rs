@@ -28,7 +28,7 @@ pub struct NewListing<'info> {
                 nft_mint.key().as_ref()],
             bump
         )]
-    pub listing_account: Account<'info, Listing>,
+    pub listing_account: Box<Account<'info, Listing>>,
 
     #[account(
         init,
@@ -36,7 +36,7 @@ pub struct NewListing<'info> {
         mint::decimals = 0,
         mint::authority = initial_owner
     )]
-    pub nft_mint: InterfaceAccount<'info, Mint>,
+    pub nft_mint: Box<InterfaceAccount<'info, Mint>>,
 
     #[account(
         init_if_needed,
@@ -44,7 +44,7 @@ pub struct NewListing<'info> {
         associated_token::mint = nft_mint,
         associated_token::authority = listing_account,
     )]
-    pub nft_vault: InterfaceAccount<'info, TokenAccount>,
+    pub nft_vault: Box<InterfaceAccount<'info, TokenAccount>>,
 
     #[account(
         seeds = [
@@ -55,7 +55,7 @@ pub struct NewListing<'info> {
         seeds::program = metadata_program.key(),
         bump,
     )]
-    pub metadata: Account<'info, MetadataAccount>,
+    pub metadata: Box<Account<'info, MetadataAccount>>,
     #[account(
         seeds = [
             b"metadata",
@@ -66,7 +66,7 @@ pub struct NewListing<'info> {
         seeds::program = metadata_program.key(),
         bump,
     )]
-    pub master_edition: Account<'info, MasterEditionAccount>,
+    pub master_edition: Box<Account<'info, MasterEditionAccount>>,
 
     pub metadata_program: Program<'info, Metadata>,
     pub associated_token_program: Program<'info, AssociatedToken>,
