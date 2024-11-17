@@ -11,10 +11,9 @@ use anchor_spl::{
     token_interface::{Mint, TokenAccount, TokenInterface},
 };
 
-use crate::{listing::Listing, LISTING_SEED};
+use crate::{error::CustomErrors, listing::Listing};
 
 #[derive(Accounts)]
-#[instruction(base_price: u64)]
 pub struct NewListing<'info> {
     #[account(mut)]
     pub initial_owner: Signer<'info>,
@@ -24,9 +23,9 @@ pub struct NewListing<'info> {
             payer = initial_owner,
             space = 8 + Listing::INIT_SPACE,
             seeds = [
-                LISTING_SEED.as_ref(),
+                b"listing".as_ref(),
                 initial_owner.key().as_ref(),
-                base_price.to_le_bytes().as_ref()],
+                nft_mint.key().as_ref()],
             bump
         )]
     pub listing_account: Account<'info, Listing>,
@@ -78,6 +77,7 @@ pub struct NewListing<'info> {
 
 impl<'info> NewListing<'info> {
     pub fn create_listing(&mut self, base_price: u64, bumps: &NewListingBumps) -> Result<()> {
+        require!(base_price > 0, CustomErrors::InvalidBasePrice);
         self.listing_account.set_inner(Listing {
             nft_mint: self.nft_mint.key(),
             initial_owner: self.initial_owner.key(),
