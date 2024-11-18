@@ -19,22 +19,23 @@ pub struct NewListing<'info> {
     pub initial_owner: Signer<'info>,
 
     #[account(
-            init,
-            payer = initial_owner,
-            space = 8 + Listing::INIT_SPACE,
-            seeds = [
-                b"listing".as_ref(),
-                initial_owner.key().as_ref(),
-                nft_mint.key().as_ref()],
-            bump
-        )]
+        init,
+        payer = initial_owner,
+        space = 8 + Listing::INIT_SPACE,
+        seeds = [
+            b"listing".as_ref(),
+            initial_owner.key().as_ref(),
+            nft_mint.key().as_ref()],
+        bump
+    )]
     pub listing_account: Box<Account<'info, Listing>>,
 
     #[account(
         init,
         payer = initial_owner,
         mint::decimals = 0,
-        mint::authority = initial_owner
+        mint::authority = initial_owner.key(),
+        mint::freeze_authority = initial_owner.key()
     )]
     pub nft_mint: Box<InterfaceAccount<'info, Mint>>,
 
@@ -46,28 +47,37 @@ pub struct NewListing<'info> {
     )]
     pub nft_vault: Box<InterfaceAccount<'info, TokenAccount>>,
 
-    #[account(
-        seeds = [
-            b"metadata",
-            metadata_program.key().as_ref(),
-            nft_mint.key().as_ref(),
-        ],
-        seeds::program = metadata_program.key(),
-        bump,
-    )]
-    pub metadata: Box<Account<'info, MetadataAccount>>,
-    #[account(
-        seeds = [
-            b"metadata",
-            metadata_program.key().as_ref(),
-            nft_mint.key().as_ref(),
-            b"edition"
-        ],
-        seeds::program = metadata_program.key(),
-        bump,
-    )]
-    pub master_edition: Box<Account<'info, MasterEditionAccount>>,
+    /// CHECK: This account will be created with Metaplex
+    #[account(mut)]
+    pub metadata: UncheckedAccount<'info>,
 
+    /// CHECK: This account will also be created with Metaplex
+    #[account(mut)]
+    pub master_edition: UncheckedAccount<'info>,
+
+    // #[account(
+    //     mut,
+    //     seeds = [
+    //         b"metadata",
+    //         metadata_program.key().as_ref(),
+    //         nft_mint.key().as_ref(),
+    //     ],
+    //     seeds::program = metadata_program.key(),
+    //     bump,
+    // )]
+    // pub metadata: Box<Account<'info, MetadataAccount>>,
+    // #[account(
+    //     mut,
+    //     seeds = [
+    //         b"metadata",
+    //         metadata_program.key().as_ref(),
+    //         nft_mint.key().as_ref(),
+    //         b"edition"
+    //     ],
+    //     seeds::program = metadata_program.key(),
+    //     bump,
+    // )]
+    // pub master_edition: Box<Account<'info, MasterEditionAccount>>,
     pub metadata_program: Program<'info, Metadata>,
     pub associated_token_program: Program<'info, AssociatedToken>,
     pub system_program: Program<'info, System>,
@@ -85,6 +95,8 @@ impl<'info> NewListing<'info> {
             bump: bumps.listing_account,
         });
 
+        msg!("Listing created successfully.");
+
         Ok(())
     }
 
@@ -94,6 +106,7 @@ impl<'info> NewListing<'info> {
         nft_symbol: String,
         nft_uri: String,
     ) -> Result<()> {
+        msg!("Minting NFT to vault...");
         let mint_cpi_program = self.token_program.to_account_info();
         let mint_accounts = MintTo {
             mint: self.nft_mint.to_account_info(),
