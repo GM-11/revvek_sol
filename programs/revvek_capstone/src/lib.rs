@@ -33,4 +33,9 @@ pub mod revvek_capstone {
         ctx.accounts.tranfer_nft()?;
         ctx.accounts.close_accounts()
     }
+
+    pub fn relist(ctx: Context<Relist>) -> Result<()> {
+        ctx.accounts.relist(&ctx.bumps)?;
+        ctx.accounts.transfer_nft()
+    }
 }

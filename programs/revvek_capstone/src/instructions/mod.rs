@@ -7,3 +7,6 @@ pub use bid_for_vehicle::*;
 
 pub mod accept_bid;
 pub use accept_bid::*;
+
+pub mod relist;
+pub use relist::*;
