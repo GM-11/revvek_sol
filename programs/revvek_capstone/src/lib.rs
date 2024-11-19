@@ -29,9 +29,9 @@ pub mod revvek_capstone {
     }
 
     pub fn accept_bid(ctx: Context<AcceptBid>) -> Result<()> {
-        ctx.accounts.transfer_staked_amount()?;
         ctx.accounts.tranfer_nft()?;
-        ctx.accounts.close_accounts()
+        ctx.accounts.transfer_staked_amount()
+        // ctx.accounts.close_accounts()
     }
 
     pub fn relist(ctx: Context<Relist>) -> Result<()> {
