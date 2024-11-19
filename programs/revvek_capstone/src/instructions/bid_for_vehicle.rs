@@ -1,4 +1,4 @@
-use anchor_lang::{prelude::*, solana_program::native_token::LAMPORTS_PER_SOL};
+use anchor_lang::prelude::*;
 
 use crate::{bid::Bid, error::CustomErrors, listing::Listing};
 
@@ -44,6 +44,6 @@ impl<'info> BidForVehicle<'info> {
         };
         let cpi_ctx = CpiContext::new(cpi_program, cpi_accounts);
 
-        anchor_lang::system_program::transfer(cpi_ctx, bid_amount * LAMPORTS_PER_SOL)
+        anchor_lang::system_program::transfer(cpi_ctx, bid_amount)
     }
 }
