@@ -4,8 +4,7 @@ use anchor_spl::{
     metadata::{
         create_master_edition_v3, create_metadata_accounts_v3,
         mpl_token_metadata::types::{Creator, DataV2},
-        CreateMasterEditionV3, CreateMetadataAccountsV3, MasterEditionAccount, Metadata,
-        MetadataAccount,
+        CreateMasterEditionV3, CreateMetadataAccountsV3, Metadata,
     },
     token_2022::{mint_to, MintTo},
     token_interface::{Mint, TokenAccount, TokenInterface},
