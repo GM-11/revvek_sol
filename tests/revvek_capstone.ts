@@ -5,7 +5,6 @@ import { getKeypairFromFile } from "@solana-developers/helpers";
 import {
   ASSOCIATED_TOKEN_PROGRAM_ID,
   getOrCreateAssociatedTokenAccount,
-  TOKEN_2022_PROGRAM_ID,
   TOKEN_PROGRAM_ID,
 } from "@solana/spl-token";
 import { RevvekCapstone } from "../target/types/revvek_capstone";
@@ -42,9 +41,8 @@ describe("revvek_capstone", () => {
     mplID
   );
 
-  it("Is initialized!", async () => {
+  async function getListingAccount() {
     const wallet = await getKeypairFromFile("~/.config/solana/id.json");
-
     const [listingAccount] = anchor.web3.PublicKey.findProgramAddressSync(
       [
         Buffer.from("listing"),
@@ -53,15 +51,26 @@ describe("revvek_capstone", () => {
       ],
       program.programId
     );
-    // const nftVault = await getOrCreateAssociatedTokenAccount(
-    //   provider.connection,
-    //   wallet,
-    //   nft_mint.publicKey,
-    //   listingAccount,
-    //   true,
-    //   "confirmed"
-    // );s
+    return listingAccount;
+  }
 
+  async function getBidAccount() {
+    const listingAccount = await getListingAccount();
+    const wallet1 = await getKeypairFromFile("./wallets/wallet1.json");
+
+    const [bidAccount] = anchor.web3.PublicKey.findProgramAddressSync(
+      [
+        Buffer.from("bid"),
+        listingAccount.toBuffer(),
+        wallet1.publicKey.toBuffer(),
+      ],
+      program.programId
+    );
+    return bidAccount;
+  }
+
+  async function getVault() {
+    const listingAccount = await getListingAccount();
     const [nftVault] = anchor.web3.PublicKey.findProgramAddressSync(
       [
         listingAccount.toBuffer(),
@@ -70,29 +79,123 @@ describe("revvek_capstone", () => {
       ],
       ASSOCIATED_TOKEN_PROGRAM_ID
     );
+    return nftVault;
+  }
 
-    try {
-      const tx = await program.methods
-        .newListing(new anchor.BN(100), name, symbol, uri)
-        .accountsPartial({
-          initialOwner: wallet.publicKey,
-          nftMint: nft_mint.publicKey,
-          metadata,
-          masterEdition,
-          listingAccount,
-          nftVault,
-          rent: anchor.web3.SYSVAR_RENT_PUBKEY,
-          systemProgram: anchor.web3.SystemProgram.programId,
-          metadataProgram: mplID,
-          tokenProgram: TOKEN_PROGRAM_ID,
-          associatedTokenProgram: ASSOCIATED_TOKEN_PROGRAM_ID,
-        })
-        .signers([wallet, nft_mint])
-        .rpc();
-      console.log(tx);
-      console.log(nft_mint.publicKey.toBase58());
-    } catch (e) {
-      console.log(e);
-    }
+  async function getBidVault() {
+    const bidAccount = await getBidAccount();
+    const [bidVault] = anchor.web3.PublicKey.findProgramAddressSync(
+      [Buffer.from("bidVault"), bidAccount.toBuffer()],
+      program.programId
+    );
+    return bidVault;
+  }
+
+  it("Is creates new listing!", async () => {
+    const wallet = await getKeypairFromFile("~/.config/solana/id.json");
+
+    const listingAccount = await getListingAccount();
+    const nftVault = await getVault();
+
+    const tx = await program.methods
+      .newListing(new anchor.BN(100), name, symbol, uri)
+      .accountsPartial({
+        initialOwner: wallet.publicKey,
+        nftMint: nft_mint.publicKey,
+        metadata,
+        masterEdition,
+        listingAccount,
+        nftVault,
+        rent: anchor.web3.SYSVAR_RENT_PUBKEY,
+        systemProgram: anchor.web3.SystemProgram.programId,
+        metadataProgram: mplID,
+        tokenProgram: TOKEN_PROGRAM_ID,
+        associatedTokenProgram: ASSOCIATED_TOKEN_PROGRAM_ID,
+      })
+      .signers([wallet, nft_mint])
+      .rpc();
+
+    console.log("--- NEW LISTING ---");
+    console.log(`Transaction Hash: ${tx}`);
+    console.log(`NFT mint: ${nft_mint.publicKey.toBase58()}`);
+  });
+
+  it("Bids for vehicle", async () => {
+    // const wallet = await getKeypairFromFile("~/.config/solana/id.json");
+    const wallet1 = await getKeypairFromFile("./wallets/wallet1.json");
+
+    // const [listingAccount] = anchor.web3.PublicKey.findProgramAddressSync(
+    //   [
+    //     Buffer.from("listing"),
+    //     wallet.publicKey.toBuffer(),
+    //     nft_mint.publicKey.toBuffer(),
+    //   ],
+    //   program.programId
+    // );
+
+    // const [bidAccount] = anchor.web3.PublicKey.findProgramAddressSync(
+    //   [
+    //     Buffer.from("bid"),
+    //     listingAccount.toBuffer(),
+    //     wallet1.publicKey.toBuffer(),
+    //   ],
+    //   program.programId
+    // );
+    //
+    const listingAccount = await getListingAccount();
+    const bidAccount = await getBidAccount();
+    const bidVault = await getBidVault();
+
+    const tx = await program.methods
+      .bidForVehicle(new anchor.BN(100))
+      .accountsPartial({
+        systemProgram: anchor.web3.SystemProgram.programId,
+        bidder: wallet1.publicKey,
+        bidAccount,
+        listingAccount,
+      })
+      .signers([wallet1])
+      .rpc();
+
+    console.log("--- BIDDING FOR VEHICLE ---");
+    console.log(`Transaction Hash: ${tx}`);
+    console.log(`Bid account: ${bidAccount.toBase58()}`);
+  });
+
+  it("Accepts bid", async () => {
+    const wallet = await getKeypairFromFile("~/.config/solana/id.json");
+    const wallet1 = await getKeypairFromFile("./wallets/wallet1.json");
+
+    const listingAccount = await getListingAccount();
+    const bidAccount = await getBidAccount();
+    const nftVault = await getVault();
+    const bidVault = await getBidVault();
+
+    const bidderAta = await getOrCreateAssociatedTokenAccount(
+      provider.connection,
+      wallet,
+      nft_mint.publicKey,
+      wallet1.publicKey
+    );
+
+    const tx = await program.methods
+      .acceptBid()
+      .accountsPartial({
+        initialOwner: wallet.publicKey,
+        nftMint: nft_mint.publicKey,
+        associatedTokenProgram: ASSOCIATED_TOKEN_PROGRAM_ID,
+        tokenProgram: TOKEN_PROGRAM_ID,
+        systemProgram: anchor.web3.SystemProgram.programId,
+        bidder: wallet1.publicKey,
+        bidAccount,
+        nftVault,
+        listingAccount,
+        bidderAta: bidderAta.address,
+      })
+      .signers([wallet])
+      .rpc();
+
+    console.log("--- ACCEPTING BID ---");
+    console.log(`Transaction Hash: ${tx}`);
   });
 });
