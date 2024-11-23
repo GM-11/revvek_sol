@@ -1680,6 +1680,13 @@
     "@stablelib/random" "^1.0.2"
     "@stablelib/wipe" "^1.0.1"
 
+"@svelte-on-solana/wallet-adapter-anchor@^1.0.16-alpha.0":
+  version "1.0.16-alpha.0"
+  resolved "https://registry.yarnpkg.com/@svelte-on-solana/wallet-adapter-anchor/-/wallet-adapter-anchor-1.0.16-alpha.0.tgz#a8bc4272f1ee515e699b7e792c10f4e5d1bd6a4b"
+  integrity sha512-pQwxPTPMX9Xo0QurWi+uTusctD0+dyW4ayGm1KdSKmmzRONqaijPDwysK5eakqY7jHpsqqDxxWX8lfckwZiZpQ==
+  dependencies:
+    eventemitter3 "^4.0.7"
+
 "@svelte-on-solana/wallet-adapter-core@^1.0.11-alpha.0":
   version "1.0.11-alpha.0"
   resolved "https://registry.yarnpkg.com/@svelte-on-solana/wallet-adapter-core/-/wallet-adapter-core-1.0.11-alpha.0.tgz#ea3eee5bb923e199fd395aa1ea1a2a1eb9ac4b85"
