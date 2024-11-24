@@ -1,24 +1,13 @@
-// const [metadata] = anchor.web3.PublicKey.findProgramAddressSync(
-//   [Buffer.from("metadata"), mplID.toBuffer(), nft_mint.publicKey.toBuffer()],
-//   mplID
-// );
-// const [masterEdition] = anchor.web3.PublicKey.findProgramAddressSync(
-//   [
-//     Buffer.from("metadata"),
-//     mplID.toBuffer(),
-//     nft_mint.publicKey.toBuffer(),
-//     Buffer.from("edition"),
-//   ],
-//   mplID
-// );
-
 import { web3 } from "@coral-xyz/anchor";
+
+export const mplID = new web3.PublicKey(
+  "metaqbxxUerdq28cj1RbAWkYQm3ybzjb6a8bt518x1s"
+);
 import {
   ASSOCIATED_TOKEN_PROGRAM_ID,
   TOKEN_PROGRAM_ID,
 } from "@solana/spl-token";
 import { PublicKey } from "@solana/web3.js";
-import { mplID } from "./constants";
 import idl from "$lib/idl/revvek.json";
 
 export async function getMetadataAccount(nftMint: PublicKey) {
