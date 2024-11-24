@@ -1,12 +1,11 @@
 <script lang="ts">
-    import { walletStore } from "@svelte-on-solana/wallet-adapter-core";
+  import Icon from '@iconify/svelte';
 </script>
 
 
 <main>
     <div class="bg">
-        <h1>Transfer ownership of your vehicle</h1>
-        <br/>
+        <h1>Buy and sell your vehicles with ease</h1>
         <br/>
         <h2> Discover premium pre-owned vehicles from trusted sellers. Every car is thoroughly inspected and verified</h2>
         <br/>
@@ -17,6 +16,37 @@
         </section>
     </div>
 </main>
+<div class="features">
+        <div class="feature-item">
+            <Icon icon="lucide:shield" width="64" height="64"  style="color: #ff3131" />
+            <br>
+            <h2>Verified Documents</h2>
+            <br>
+            <p>Complete and full verification of documents</p>
+        </div>
+        <div class="feature-item">
+            <Icon icon="lucide:fuel" width="64" height="64"  style="color: #B68F40" />
+            <br>
+            <h2>Full History</h2>
+            <br>
+            <p>Full access to vehicle history</p>
+        </div>
+        <div class="feature-item">
+            <Icon icon="lucide:clock" width="64" height="64"  style="color: #ff3131" />
+            <br>
+            <h2>Quick Process</h2>
+            <br>
+            <p>Seamless and fast transfer of ownership</p>
+        </div>
+
+        <!-- <div class="feature-item">
+            <Icon icon="lucide:fuel" width="64" height="64"  style="color: #B68F40" />
+            <br>
+            <h2>Security</h2>
+            <br>
+            <p>Every vehicle undergoes a thorough inspection</p>
+        </div> -->
+</div>
 
 <style>
 
@@ -28,6 +58,39 @@
     h1 {
         font-size: 3rem;
         font-weight: 600;
+    }
+
+
+    .features {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-evenly;
+        background-color: var(--secondary);
+        padding: 1rem;
+        height: 15rem;
+    }
+    .feature-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .feature-item h2 {
+        font-size: 1.5rem;
+        font-weight: 600;
+        color: var(--text);
+        width: 70%;
+    }
+
+    .feature-item p {
+        font-size: 1rem;
+        font-weight: 300;
+        color: #999696;
+        width: 70%;
     }
 
     .search {
