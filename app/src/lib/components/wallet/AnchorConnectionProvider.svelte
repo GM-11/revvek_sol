@@ -34,7 +34,6 @@
 		} as web3.ConfirmOptions);
 
 		const program = new Program<RevvekCapstone>(JSON.parse(JSON.stringify(idl)), provider);
-		console.log(program)
 		workspaceStore.set({
 			baseAccount,
 			connection,

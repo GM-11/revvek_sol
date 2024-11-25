@@ -5,8 +5,9 @@
 
 <div>
     <nav>
-        <h1>Revvek</h1>
-
+        <a href="/">
+            <h1>Revvek</h1>
+        </a>
         <WalletMultiButton />
     </nav>
 </div>
@@ -21,8 +22,13 @@
         border-radius: 0.5rem;
         padding: 1rem;
         width: 80vw;
-    }
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
 
+    }
+    a {
+        text-decoration: none;
+        color: var(--primary);
+    }
 
     div {
         width: 100%;

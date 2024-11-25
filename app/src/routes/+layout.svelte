@@ -34,7 +34,7 @@
     });
 </script>
 
-<WalletProvider {localStorageKey} {wallets} />
+<WalletProvider {localStorageKey} {wallets} autoConnect />
 <AnchorConnectionProvider {network} {idl} />
 <!-- <ConnectionProvider {network} /> -->
 
@@ -53,6 +53,8 @@
         --primary-hover: #ad0c0c;
         --secondary-hover: #0a0909;
     }
+
+
 
     :global(body, h1, h2, h3, h4, h5, h6, p) {
         margin: 0;
