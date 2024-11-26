@@ -1,3 +1,6 @@
+import { PublicKey } from "@solana/web3.js";
+import * as anchor from "@coral-xyz/anchor";
+
 export type CarListing = {
   make: string;
   model: string;
@@ -24,3 +27,13 @@ export type CarListing = {
   vin?: string;
   warranty?: string;
 };
+
+export interface Listing extends CarListing {
+  nftMint: PublicKey;
+  initialOwner: PublicKey;
+  basePrice: anchor.BN;
+  listingUriHash: string;
+  imageUri: string;
+  name: string;
+  publicKey: PublicKey;
+}

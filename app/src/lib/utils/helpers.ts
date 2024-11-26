@@ -1,5 +1,4 @@
 import { type CarListing } from "./types";
-
 export function convertCarListingtoMetadata(carListing: CarListing) {
   const metadata: {
     trait_type: string;
@@ -15,12 +14,26 @@ export function convertCarListingtoMetadata(carListing: CarListing) {
       continue;
     }
 
-    metadata.push({
-      trait_type: key,
-      value: value.toString(),
-    });
+    if (
+      key === "make" ||
+      key === "model" ||
+      key === "type" ||
+      key === "color" ||
+      key === "transmission" ||
+      key === "mileage" ||
+      key === "fuelType" ||
+      key === "engineSize" ||
+      key === "vin"
+    ) {
+      metadata.push({
+        trait_type: key,
+        value: value.toString(),
+      });
+    }
   }
   return metadata;
 }
 
-export const CURRENT_SOL_PRICE = 235.15; // will change
+export function parseHashToURI(hash: String) {
+  return `https://white-abstract-alligator-386.mypinata.cloud/ipfs/${hash}`;
+}
