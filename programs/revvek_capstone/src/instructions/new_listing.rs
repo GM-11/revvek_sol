@@ -54,29 +54,6 @@ pub struct NewListing<'info> {
     #[account(mut)]
     pub master_edition: UncheckedAccount<'info>,
 
-    // #[account(
-    //     mut,
-    //     seeds = [
-    //         b"metadata",
-    //         metadata_program.key().as_ref(),
-    //         nft_mint.key().as_ref(),
-    //     ],
-    //     seeds::program = metadata_program.key(),
-    //     bump,
-    // )]
-    // pub metadata: Box<Account<'info, MetadataAccount>>,
-    // #[account(
-    //     mut,
-    //     seeds = [
-    //         b"metadata",
-    //         metadata_program.key().as_ref(),
-    //         nft_mint.key().as_ref(),
-    //         b"edition"
-    //     ],
-    //     seeds::program = metadata_program.key(),
-    //     bump,
-    // )]
-    // pub master_edition: Box<Account<'info, MasterEditionAccount>>,
     pub metadata_program: Program<'info, Metadata>,
     pub associated_token_program: Program<'info, AssociatedToken>,
     pub system_program: Program<'info, System>,
@@ -85,10 +62,16 @@ pub struct NewListing<'info> {
 }
 
 impl<'info> NewListing<'info> {
-    pub fn create_listing(&mut self, base_price: u64, bumps: &NewListingBumps) -> Result<()> {
+    pub fn create_listing(
+        &mut self,
+        base_price: u64,
+        listing_uri_hash: String,
+        bumps: &NewListingBumps,
+    ) -> Result<()> {
         require!(base_price > 0, CustomErrors::InvalidBasePrice);
         self.listing_account.set_inner(Listing {
             nft_mint: self.nft_mint.key(),
+            listing_uri_hash,
             initial_owner: self.initial_owner.key(),
             base_price,
             bump: bumps.listing_account,

@@ -16,11 +16,13 @@ pub mod revvek_capstone {
     pub fn new_listing(
         ctx: Context<NewListing>,
         base_price: u64,
+        listing_uri_hash: String,
         nft_name: String,
         nft_symbol: String,
         nft_uri: String,
     ) -> Result<()> {
-        ctx.accounts.create_listing(base_price, &ctx.bumps)?;
+        ctx.accounts
+            .create_listing(base_price, listing_uri_hash, &ctx.bumps)?;
         ctx.accounts.mint_to_vault(nft_name, nft_symbol, nft_uri)
     }
 
@@ -34,8 +36,8 @@ pub mod revvek_capstone {
         // ctx.accounts.close_accounts()
     }
 
-    pub fn relist(ctx: Context<Relist>) -> Result<()> {
-        ctx.accounts.relist(&ctx.bumps)?;
+    pub fn relist(ctx: Context<Relist>, listing_uri_hash: String) -> Result<()> {
+        ctx.accounts.relist(listing_uri_hash, &ctx.bumps)?;
         ctx.accounts.transfer_nft()
     }
 }

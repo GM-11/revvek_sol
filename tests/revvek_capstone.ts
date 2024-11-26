@@ -98,7 +98,7 @@ describe("revvek_capstone", () => {
     const nftVault = await getVault();
 
     const tx = await program.methods
-      .newListing(new anchor.BN(100), name, symbol, uri)
+      .newListing(new anchor.BN(100), "", name, symbol, uri)
       .accountsPartial({
         initialOwner: wallet.publicKey,
         nftMint: nft_mint.publicKey,

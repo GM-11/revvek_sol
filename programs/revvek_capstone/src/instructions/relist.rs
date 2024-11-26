@@ -72,9 +72,10 @@ pub struct Relist<'info> {
 }
 
 impl<'info> Relist<'info> {
-    pub fn relist(&mut self, bumps: &RelistBumps) -> Result<()> {
+    pub fn relist(&mut self, listing_uri_hash: String, bumps: &RelistBumps) -> Result<()> {
         self.listing_account.set_inner(Listing {
             nft_mint: self.nft_mint.key(),
+            listing_uri_hash,
             initial_owner: self.initial_owner.key(),
             base_price: self.listing_account.base_price,
             bump: bumps.listing_account,
