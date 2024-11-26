@@ -1,6 +1,6 @@
-import { web3 } from "@coral-xyz/anchor";
+import * as anchor from "@coral-xyz/anchor";
 
-export const mplID = new web3.PublicKey(
+export const mplID = new anchor.web3.PublicKey(
   "metaqbxxUerdq28cj1RbAWkYQm3ybzjb6a8bt518x1s"
 );
 import {
@@ -11,7 +11,7 @@ import { PublicKey } from "@solana/web3.js";
 import idl from "$lib/idl/revvek.json";
 
 export async function getMetadataAccount(nftMint: PublicKey) {
-  const [metadata] = web3.PublicKey.findProgramAddressSync(
+  const [metadata] = anchor.web3.PublicKey.findProgramAddressSync(
     [Buffer.from("metadata"), mplID.toBuffer(), nftMint.toBuffer()],
     mplID
   );
@@ -19,7 +19,7 @@ export async function getMetadataAccount(nftMint: PublicKey) {
 }
 
 export async function getMasterEditionAccount(nftMint: PublicKey) {
-  const [masterEdition] = web3.PublicKey.findProgramAddressSync(
+  const [masterEdition] = anchor.web3.PublicKey.findProgramAddressSync(
     [
       Buffer.from("metadata"),
       mplID.toBuffer(),
@@ -34,7 +34,7 @@ export async function getListingAccount(
   wallet: PublicKey,
   nft_mint: PublicKey
 ) {
-  const [listingAccount] = web3.PublicKey.findProgramAddressSync(
+  const [listingAccount] = anchor.web3.PublicKey.findProgramAddressSync(
     [Buffer.from("listing"), wallet.toBuffer(), nft_mint.toBuffer()],
     new PublicKey(idl.address)
   );
@@ -45,7 +45,7 @@ export async function getBidAccount(
   wallet: PublicKey,
   listingAccount: PublicKey
 ) {
-  const [bidAccount] = web3.PublicKey.findProgramAddressSync(
+  const [bidAccount] = anchor.web3.PublicKey.findProgramAddressSync(
     [Buffer.from("bid"), listingAccount.toBuffer(), wallet.toBuffer()],
     new PublicKey(idl.address)
   );
@@ -53,7 +53,7 @@ export async function getBidAccount(
 }
 
 export async function getVault(nftMint: PublicKey, listingAccount: PublicKey) {
-  const [nftVault] = web3.PublicKey.findProgramAddressSync(
+  const [nftVault] = anchor.web3.PublicKey.findProgramAddressSync(
     [
       listingAccount.toBuffer(),
       TOKEN_PROGRAM_ID.toBuffer(),
@@ -65,7 +65,7 @@ export async function getVault(nftMint: PublicKey, listingAccount: PublicKey) {
 }
 
 export async function getBidVault(bidAccount: PublicKey) {
-  const [bidVault] = web3.PublicKey.findProgramAddressSync(
+  const [bidVault] = anchor.web3.PublicKey.findProgramAddressSync(
     [Buffer.from("bidVault"), bidAccount.toBuffer()],
     new PublicKey(idl.address)
   );
