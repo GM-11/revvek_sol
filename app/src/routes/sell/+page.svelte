@@ -6,8 +6,7 @@
     import { getListingAccount, getVault, getMetadataAccount, getMasterEditionAccount, mplID } from "$lib/utils/pda";
     import { type CarListing } from "$lib/utils/types";
     import Base64 from 'base64-js';
-    import { convertCarListingtoMetadata, CURRENT_SOL_PRICE } from "$lib/utils/helpers";
-
+    import { LAMPORTS_PER_SOL } from "@solana/web3.js";
 
     let imageFile: File;
 
@@ -51,16 +50,17 @@
         body: formData,
       });
 
-      const {name, symbol, metadataUrl} = await response.json();
+      const {name, symbol, metadataUrl, listingHash} = await response.json();
 
       return {
-        name, symbol, uri: metadataUrl
+        name, symbol, uri: metadataUrl, listingHash
       }
     }
 
     async function list() {
-      loading = true;
-      const {name, symbol, uri} = await uploadToIPFS();
+        loading = true;
+        const {name, symbol, uri, listingHash} = await uploadToIPFS();
+
 
         const nftMint = anchor.web3.Keypair.generate();
         const listingAccount = await getListingAccount($walletStore.publicKey, nftMint.publicKey);
@@ -69,8 +69,10 @@
         const metadata = await getMetadataAccount(nftMint.publicKey);
         const masterEdition = await getMasterEditionAccount(nftMint.publicKey);
 
+        const price = new anchor.BN(carListing.price * LAMPORTS_PER_SOL);
+
         const tx =  await $workspaceStore.program.methods
-          .newListing(new anchor.BN(carListing.price / CURRENT_SOL_PRICE), name, symbol, uri)
+          .newListing(price, listingHash,  name, symbol, uri)
           .accountsPartial({
             initialOwner: $walletStore.publicKey,
             nftMint: nftMint.publicKey,
@@ -88,6 +90,8 @@
           rpc();
 
         loading = false;
+
+        console.log(tx);
     }
 
     const handleSubmit = (e: Event) => {
@@ -97,7 +101,6 @@
      };
 
     const handleFileChange = async (event: Event, field: 'photos' | 'video') => {
-      // loading = true;
       const input = event.target as HTMLInputElement;
       const file = input.files[0];
       imageFile = file;
@@ -141,7 +144,7 @@
           } catch (error) {
             console.error('Error analyzing image:', error);
           } finally {
-            loading = false;
+            loading = false
           }
         } else if (field === 'video') {
           carListing.video = file[0];
@@ -149,7 +152,6 @@
       }
 
     };
-CURRENT_SOL_PRICE
 </script>
 <main>
 
