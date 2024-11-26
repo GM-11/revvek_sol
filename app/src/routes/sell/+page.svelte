@@ -5,11 +5,13 @@
     import { ASSOCIATED_TOKEN_PROGRAM_ID, TOKEN_PROGRAM_ID } from "@solana/spl-token";
     import { getListingAccount, getVault, getMetadataAccount, getMasterEditionAccount, mplID } from "$lib/utils/pda";
     import { type CarListing } from "$lib/utils/types";
+    import Base64 from 'base64-js';
+    import { convertCarListingtoMetadata, CURRENT_SOL_PRICE } from "$lib/utils/helpers";
 
-    let price = 0;
-    let name = "";
-    let symbol = "";
-    let uri = "";
+
+    let imageFile: File;
+
+    let loading = false;
 
     let carListing: CarListing = {
        make: '',
@@ -22,9 +24,8 @@
        condition: '',
        color: '',
        engineSize: '',
-       owners: 1,
+       sellerGovtID: '',
        accidentHistory: '',
-       features: [],
        serviceRecords: '',
        insuranceDetails: '',
        location: '',
@@ -33,14 +34,35 @@
        photos: [],
        sellerName: '',
        contact: '',
-       communicationPreference: '',
        reasonForSale: '',
        vin: '',
+       video: null,
        warranty: ''
      };
 
+    async function uploadToIPFS() {
+
+      const formData = new FormData();
+      formData.append("image", imageFile);
+      formData.append("data", JSON.stringify(carListing));
+
+      const response = await fetch("/api/uploadToIPFS/", {
+        method: "POST",
+        body: formData,
+      });
+
+      const {name, symbol, metadataUrl} = await response.json();
+
+      return {
+        name, symbol, uri: metadataUrl
+      }
+    }
+
     async function list() {
-      const nftMint = anchor.web3.Keypair.generate();
+      loading = true;
+      const {name, symbol, uri} = await uploadToIPFS();
+
+        const nftMint = anchor.web3.Keypair.generate();
         const listingAccount = await getListingAccount($walletStore.publicKey, nftMint.publicKey);
         const nftVault = await getVault(nftMint.publicKey, listingAccount);
 
@@ -48,7 +70,7 @@
         const masterEdition = await getMasterEditionAccount(nftMint.publicKey);
 
         const tx =  await $workspaceStore.program.methods
-          .newListing(new anchor.BN(price), name, symbol, uri)
+          .newListing(new anchor.BN(carListing.price / CURRENT_SOL_PRICE), name, symbol, uri)
           .accountsPartial({
             initialOwner: $walletStore.publicKey,
             nftMint: nftMint.publicKey,
@@ -64,28 +86,81 @@
           })
           .signers([nftMint]).
           rpc();
+
+        loading = false;
     }
 
     const handleSubmit = (e: Event) => {
        e.preventDefault();
-       console.log('Car Listing:', carListing);
-       // You can send this data to your backend via fetch API
+
+       list();
      };
 
-    const handleFileChange = (event: Event, field: 'photos' | 'video') => {
+    const handleFileChange = async (event: Event, field: 'photos' | 'video') => {
+      // loading = true;
       const input = event.target as HTMLInputElement;
-      const files = input.files;
-      if (files) {
+      const file = input.files[0];
+      imageFile = file;
+
+      if (file) {
         if (field === 'photos') {
-          carListing.photos = Array.from(files);
+          const imageUrl = URL.createObjectURL(file);
+          carListing.photos = [...carListing.photos, imageUrl];
+          try {
+            loading = true;
+            let imageBase64 = await fetch(imageUrl)
+                  .then(r => r.arrayBuffer())
+                  .then(a => Base64.fromByteArray(new Uint8Array(a)));
+
+            const result = await fetch("/api/vehicleData/", {
+              method: "POST",
+              headers: {
+                "content-type": "application/json",
+              },
+              body: JSON.stringify({
+                imageBase64
+              })
+            })
+
+            const response = JSON.parse(await result.json()) as {
+              make: string; model: string; type: string; color: string;
+              transmission: string; mileage: number; fuelType: string;
+              engineSize: string; price: number
+            };
+
+
+            carListing.make = response.make;
+            carListing.model = response.model;
+            carListing.type = response.type;
+            carListing.color = response.color;
+            carListing.transmission = response.transmission;
+            carListing.mileage = response.mileage;
+            carListing.fuelType = response.fuelType;
+            carListing.engineSize = response.engineSize;
+            carListing.price = response.price;
+          } catch (error) {
+            console.error('Error analyzing image:', error);
+          } finally {
+            loading = false;
+          }
         } else if (field === 'video') {
-          carListing.video = files[0];
+          carListing.video = file[0];
         }
       }
-    };
 
+    };
+CURRENT_SOL_PRICE
 </script>
 <main>
+
+
+    {#if loading}
+      <div class="overlay">
+          <h1> Loading... </h1>
+      </div>
+    {/if}
+
+
     <h1>List Your Car for Sale</h1>
     <h2>Seller Information</h2>
     <div class="container">
@@ -97,10 +172,32 @@
           <label for="contact">Contact:</label>
           <input id="contact" type="text" bind:value={carListing.contact} required />
         </div>
+        <div class="field">
+          <label for="contact">Valid Government ID:</label>
+          <input id="contact" type="text" bind:value={carListing.sellerGovtID} required />
+        </div>
+    </div>
+    <h2>Photos and Videos</h2>
+    <div class="container">
+        <div class="field" >
+          <label for="photos">Photos</label>
+          <input id="photos" type="file" multiple accept="image/*" on:change={(e) => handleFileChange(e, 'photos')} required />
+
+          {#if carListing.photos.length > 0}
+            <div style="display: flex; flex-wrap: wrap; gap: 1rem; margin-top: 1rem;">
+              {#each carListing.photos as photo}
+                <img src={photo} alt="Selected car" style="object-fit: cover; border-radius: 4px;"/>
+              {/each}
+            </div>
+          {/if}
+        </div>
+        <div class="field">
+          <label for="video">Video</label>
+          <input id="video" type="file" accept="video/*" on:change={(e) => handleFileChange(e, 'video')} />
+        </div>
     </div>
     <h2>General Information</h2>
     <div class="container">
-         <!-- Vehicle Details -->
             <div class="field">
                <label for="make">Make:</label>
                <input id="make" type="text" bind:value={carListing.make} required />
@@ -122,8 +219,42 @@
              <option value="Hatchback">Hatchback</option>
              <option value="Truck">Truck</option>
              <option value="Convertible">Convertible</option>
+             <option value="Coupe">
            </select>
          </div>
+
+
+                  <div class="field">
+                    <label for="accidentHistory">Accident History:</label>
+                    <input id="accidentHistory" bind:value={carListing.accidentHistory} required/>
+                  </div>
+
+                  <div class="field">
+                    <label for="serviceRecords">Service Records:</label>
+                    <input id="serviceRecords" bind:value={carListing.serviceRecords} required>
+                  </div>
+                  <div class="field">
+                    <label for="insuranceDetails">Insurance Details:</label>
+                    <input id="insuranceDetails" bind:value={carListing.insuranceDetails} required>
+                  </div>
+                  <div class="field">
+                    <label for="location">Location:</label>
+                    <input id="location" type="text" bind:value={carListing.location} required />
+                  </div>
+
+                  <div class="field">
+                    <label for="reasonForSale">Reason for Sale:</label>
+                    <input id="reasonForSale" bind:value={carListing.reasonForSale} required />
+                  </div>
+                  <div class="field">
+                    <label for="vin">VIN:</label>
+                    <input id="vin" type="text" bind:value={carListing.vin} required />
+                  </div>
+                  <div class="field">
+                    <label for="warranty">Warranty Information:</label>
+                    <input id="warranty" bind:value={carListing.warranty} required />
+                  </div>
+
         </div>
         <h2>Vehicle Specifications</h2>
         <div class="container">
@@ -167,34 +298,20 @@
          </div>
 
         </div>
+        <h2>Price</h2>
         <div class="container">
-
-         <!-- Pricing -->
          <div class="field">
            <label for="price">Price (USD):</label>
            <input id="price" type="number" min="0" bind:value={carListing.price} required />
-         </div>
-         <div class="field">
            <label>
              <input type="checkbox" bind:checked={carListing.negotiable} />
              Negotiable
            </label>
          </div>
 
-         <!-- Media -->
-         <div class="field">
-           <label for="photos">Photos:</label>
-           <input id="photos" type="file" multiple accept="image/*" on:change={(e) => handleFileChange(e, 'photos')} required />
-         </div>
-         <div class="field">
-           <label for="video">Video (Optional):</label>
-           <input id="video" type="file" accept="video/*" on:change={(e) => handleFileChange(e, 'video')} />
-         </div>
 
-         <!-- Seller Details -->
-         <!-- Submit -->
          </div>
-        <button type="submit" class="btn">Submit Listing</button>
+        <button on:click={handleSubmit} class="btn">Submit Listing</button>
 </main>
 
 <style>
@@ -230,6 +347,19 @@
           margin-bottom: 1rem;
       }
 
+
+      .overlay {
+          position: fixed;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background-color: rgba(0, 0, 0, 0.5);
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          z-index: 1000;
+      }
       h1 {
         font-size: 2rem;
         text-align: center;
