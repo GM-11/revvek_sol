@@ -6,5 +6,6 @@ pub struct Bid {
     pub nft_mint: Pubkey,
     pub bidder: Pubkey,
     pub base_price: u64,
+    pub listing_account: Pubkey,
     pub bump: u8,
 }
