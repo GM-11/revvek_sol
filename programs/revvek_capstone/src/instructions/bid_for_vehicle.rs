@@ -31,6 +31,7 @@ impl<'info> BidForVehicle<'info> {
 
         self.bid_account.set_inner(Bid {
             nft_mint: self.listing_account.nft_mint,
+            listing_account: self.listing_account.key(),
             bidder: self.bidder.key(),
             base_price: self.listing_account.base_price,
             bump: bumps.bid_account,
