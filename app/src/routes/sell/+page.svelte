@@ -383,7 +383,7 @@ CURRENT_SOL_PRICE
         color: var(--text);
       }
 
-      input, select, textarea {
+      input, select {
         padding: 0.8rem;
         border: none;
         border-radius: 4px;
@@ -392,7 +392,7 @@ CURRENT_SOL_PRICE
         color: var(--text);
       }
 
-      input:focus, select:focus, textarea:focus {
+      input:focus, select:focus {
         outline: 2px solid var(--primary);
       }
 
