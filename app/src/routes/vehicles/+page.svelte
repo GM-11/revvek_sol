@@ -33,7 +33,7 @@
           </div>
           <div class="listing-header-details">
             <h2>{listing.make} {listing.model}</h2>
-            <p>{listing.price} USD</p>
+            <p>{listing.price} SOON</p>
           </div>
         </a>
       {/each}

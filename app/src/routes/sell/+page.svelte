@@ -303,7 +303,7 @@
         <h2>Price</h2>
         <div class="container">
          <div class="field">
-           <label for="price">Price (USD):</label>
+           <label for="price">Price (SOON):</label>
            <input id="price" type="number" min="0" bind:value={carListing.price} required />
            <label>
              <input type="checkbox" bind:checked={carListing.negotiable} />
