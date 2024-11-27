@@ -1,6 +1,5 @@
 <script lang="ts">
     import { onMount } from "svelte";
-    import { clusterApiUrl } from "@solana/web3.js";
     import {
         WalletProvider,
     } from "@svelte-on-solana/wallet-adapter-ui";
@@ -13,21 +12,17 @@
 
 
     const localStorageKey = "walletAdapter";
-    const network = clusterApiUrl("devnet"); // localhost or mainnet
+    const network = "https://rpc.testnet.soo.network/rpc"; // localhost or mainnet
 
     let wallets: any[];
 
     onMount(async () => {
         const {
-            PhantomWalletAdapter,
-            SolflareWalletAdapter,
-            TorusWalletAdapter,
+            NightlyWalletAdapter
         } = await import("@solana/wallet-adapter-wallets");
 
         const walletsMap = [
-            new PhantomWalletAdapter(),
-            new SolflareWalletAdapter(),
-            new TorusWalletAdapter(),
+            new NightlyWalletAdapter()
         ];
 
         wallets = walletsMap;

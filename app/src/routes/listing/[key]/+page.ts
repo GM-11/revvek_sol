@@ -1,13 +1,15 @@
 import { parseHashToURI } from "$lib/utils/helpers";
 import { getMetadataAccount } from "$lib/utils/pda";
-import { clusterApiUrl, PublicKey } from "@solana/web3.js";
+import { PublicKey } from "@solana/web3.js";
 import type { PageLoad } from "./$types";
 import * as anchor from "@coral-xyz/anchor";
 // import { type Listing } from "$lib/utils/types";
 
 export const load: PageLoad = async ({ params }) => {
   const { key } = params;
-  const connection = new anchor.web3.Connection(clusterApiUrl("devnet"));
+  const connection = new anchor.web3.Connection(
+    "https://rpc.testnet.soo.network/rpc"
+  );
 
   const [nftMint, listingUriHash, publickKey] = key.split("--");
 
