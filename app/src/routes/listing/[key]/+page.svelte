@@ -108,7 +108,7 @@
             <div class="basic-info">
                 <p><strong>Year:</strong> {listingData.year}</p>
                 <p><strong>Price:</strong> ${listingData.price.toLocaleString()}</p>
-                <p><strong>Mileage:</strong> {listingData.mileage.toLocaleString()} miles</p>
+                <p><strong>Mileage:</strong> {listingData.mileage.toLocaleString()} km</p>
             </div>
 
             <div class="specs">
