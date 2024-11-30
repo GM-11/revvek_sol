@@ -7,7 +7,6 @@
     import { type CarListing } from "$lib/utils/types";
     import Base64 from 'base64-js';
     import { LAMPORTS_PER_SOL } from "@solana/web3.js";
-
     let imageFile: File;
 
     let loading = false;
@@ -61,8 +60,8 @@
         loading = true;
         const {name, symbol, uri, listingHash} = await uploadToIPFS();
 
-
         const nftMint = anchor.web3.Keypair.generate();
+
         const listingAccount = await getListingAccount($walletStore.publicKey, nftMint.publicKey);
         const nftVault = await getVault(nftMint.publicKey, listingAccount);
 
@@ -75,7 +74,7 @@
           .newListing(price, listingHash,  name, symbol, uri)
           .accountsPartial({
             initialOwner: $walletStore.publicKey,
-            nftMint: nftMint.publicKey,
+                nftMint: nftMint.publicKey,
             metadata,
             masterEdition,
             listingAccount,

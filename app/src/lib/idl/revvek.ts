@@ -5,7 +5,7 @@
  * IDL can be found at `target/idl/revvek_capstone.json`.
  */
 export type RevvekCapstone = {
-  "address": "HCxL9BAMFjfMqfboyYSzuxo7baShezELbyfvRZjgEVvP",
+  "address": "7JX8JcAY1HZ2biyyknU9ZbHJvvozgakEPJcsaxWwKVwJ",
   "metadata": {
     "name": "revvekCapstone",
     "version": "0.1.0",

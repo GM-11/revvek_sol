@@ -5,10 +5,10 @@ resolution = true
 skip-lint = false
 
 [programs.devnet]
-revvek_capstone = "HCxL9BAMFjfMqfboyYSzuxo7baShezELbyfvRZjgEVvP"
+revvek_capstone = "c4Lpyb19wY3V1ZHkHUKA1VrUY7s1pDjQwynh5m3tAGW"
 
 [programs.localnet]
-revvek_capstone = "HCxL9BAMFjfMqfboyYSzuxo7baShezELbyfvRZjgEVvP"
+revvek_capstone = "c4Lpyb19wY3V1ZHkHUKA1VrUY7s1pDjQwynh5m3tAGW"
 
 
 [registry]

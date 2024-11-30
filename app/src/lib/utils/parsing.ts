@@ -1,5 +1,5 @@
 import * as anchor from "@coral-xyz/anchor";
-import { LAMPORTS_PER_SOL, PublicKey } from "@solana/web3.js";
+import { clusterApiUrl, LAMPORTS_PER_SOL, PublicKey } from "@solana/web3.js";
 import { parseHashToURI } from "./helpers";
 import { getMetadataAccount } from "./pda";
 import { type Listing } from "./types";
@@ -14,9 +14,7 @@ export async function parseListings(
   }>[]
 ) {
   let l: Listing[] = [];
-  const connection = new anchor.web3.Connection(
-    "https://rpc.testnet.soo.network/rpc"
-  );
+  const connection = new anchor.web3.Connection(clusterApiUrl("devnet"));
 
   for (const listing of listings) {
     const { nftMint, initialOwner, basePrice, listingUriHash } =
@@ -62,9 +60,7 @@ export async function parseBids(
   listingAccuountInitialOwner: anchor.web3.PublicKey
 ) {
   let b: any[] = [];
-  const connection = new anchor.web3.Connection(
-    "https://rpc.testnet.soo.network/rpc"
-  );
+  const connection = new anchor.web3.Connection(clusterApiUrl("devnet"));
   for (const bid of bids) {
     const bidData = {
       balance: (await connection.getBalance(bid.publicKey)) / LAMPORTS_PER_SOL,

@@ -1,6 +1,5 @@
 import * as anchor from "@coral-xyz/anchor";
 import { Program } from "@coral-xyz/anchor";
-import { MPL_TOKEN_METADATA_PROGRAM_ID } from "@metaplex-foundation/mpl-token-metadata";
 import { getKeypairFromFile } from "@solana-developers/helpers";
 import {
   ASSOCIATED_TOKEN_PROGRAM_ID,
@@ -24,7 +23,7 @@ describe("revvek_capstone", () => {
   const nft_mint = anchor.web3.Keypair.generate();
 
   const mplID = new anchor.web3.PublicKey(
-    MPL_TOKEN_METADATA_PROGRAM_ID.toString()
+    "metaqbxxUerdq28cj1RbAWkYQm3ybzjb6a8bt518x1s"
   );
 
   const [metadata] = anchor.web3.PublicKey.findProgramAddressSync(

@@ -9,20 +9,26 @@
     import idl from "$lib/idl/revvek.json";
 
     import AnchorConnectionProvider from "$lib/components/wallet/AnchorConnectionProvider.svelte";
+    import { clusterApiUrl } from "@solana/web3.js";
 
 
     const localStorageKey = "walletAdapter";
-    const network = "https://rpc.testnet.soo.network/rpc"; // localhost or mainnet
+    const network = clusterApiUrl("devnet")
+; // localhost or mainnet
 
     let wallets: any[];
 
     onMount(async () => {
         const {
-            NightlyWalletAdapter
+            NightlyWalletAdapter,
+            PhantomWalletAdapter,
+            SolflareWalletAdapter,
         } = await import("@solana/wallet-adapter-wallets");
 
         const walletsMap = [
-            new NightlyWalletAdapter()
+            new NightlyWalletAdapter(),
+            new PhantomWalletAdapter(),
+            new SolflareWalletAdapter(),
         ];
 
         wallets = walletsMap;
