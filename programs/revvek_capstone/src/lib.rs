@@ -7,7 +7,7 @@ use anchor_lang::prelude::*;
 pub use instructions::*;
 pub use state::*;
 
-declare_id!("c4Lpyb19wY3V1ZHkHUKA1VrUY7s1pDjQwynh5m3tAGW");
+declare_id!("9CR2SnBXi84kXwtLHqetdttE8LmrULTRZbDTVkqqiys7");
 
 #[program]
 pub mod revvek_capstone {

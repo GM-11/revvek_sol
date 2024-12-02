@@ -5,56 +5,47 @@
  * IDL can be found at `target/idl/revvek_capstone.json`.
  */
 export type RevvekCapstone = {
-  "address": "c4Lpyb19wY3V1ZHkHUKA1VrUY7s1pDjQwynh5m3tAGW",
-  "metadata": {
-    "name": "revvekCapstone",
-    "version": "0.1.0",
-    "spec": "0.1.0",
-    "description": "Created with Anchor"
-  },
-  "instructions": [
+  address: "9CR2SnBXi84kXwtLHqetdttE8LmrULTRZbDTVkqqiys7";
+  metadata: {
+    name: "revvekCapstone";
+    version: "0.1.0";
+    spec: "0.1.0";
+    description: "Created with Anchor";
+  };
+  instructions: [
     {
-      "name": "acceptBid",
-      "discriminator": [
-        196,
-        191,
-        1,
-        229,
-        144,
-        172,
-        122,
-        227
-      ],
-      "accounts": [
+      name: "acceptBid";
+      discriminator: [196, 191, 1, 229, 144, 172, 122, 227];
+      accounts: [
         {
-          "name": "initialOwner",
-          "writable": true,
-          "signer": true
+          name: "initialOwner";
+          writable: true;
+          signer: true;
         },
         {
-          "name": "listingAccount",
-          "writable": true
+          name: "listingAccount";
+          writable: true;
         },
         {
-          "name": "bidAccount",
-          "writable": true
+          name: "bidAccount";
+          writable: true;
         },
         {
-          "name": "bidder",
-          "writable": true
+          name: "bidder";
+          writable: true;
         },
         {
-          "name": "nftVault",
-          "writable": true,
-          "pda": {
-            "seeds": [
+          name: "nftVault";
+          writable: true;
+          pda: {
+            seeds: [
               {
-                "kind": "account",
-                "path": "listingAccount"
+                kind: "account";
+                path: "listingAccount";
               },
               {
-                "kind": "const",
-                "value": [
+                kind: "const";
+                value: [
                   6,
                   221,
                   246,
@@ -87,16 +78,16 @@ export type RevvekCapstone = {
                   255,
                   0,
                   169
-                ]
+                ];
               },
               {
-                "kind": "account",
-                "path": "nftMint"
+                kind: "account";
+                path: "nftMint";
               }
-            ],
-            "program": {
-              "kind": "const",
-              "value": [
+            ];
+            program: {
+              kind: "const";
+              value: [
                 140,
                 151,
                 37,
@@ -129,29 +120,27 @@ export type RevvekCapstone = {
                 233,
                 248,
                 89
-              ]
-            }
-          }
+              ];
+            };
+          };
         },
         {
-          "name": "nftMint",
-          "writable": true,
-          "relations": [
-            "bidAccount"
-          ]
+          name: "nftMint";
+          writable: true;
+          relations: ["bidAccount"];
         },
         {
-          "name": "bidderAta",
-          "writable": true,
-          "pda": {
-            "seeds": [
+          name: "bidderAta";
+          writable: true;
+          pda: {
+            seeds: [
               {
-                "kind": "account",
-                "path": "bidder"
+                kind: "account";
+                path: "bidder";
               },
               {
-                "kind": "const",
-                "value": [
+                kind: "const";
+                value: [
                   6,
                   221,
                   246,
@@ -184,16 +173,16 @@ export type RevvekCapstone = {
                   255,
                   0,
                   169
-                ]
+                ];
               },
               {
-                "kind": "account",
-                "path": "nftMint"
+                kind: "account";
+                path: "nftMint";
               }
-            ],
-            "program": {
-              "kind": "const",
-              "value": [
+            ];
+            program: {
+              kind: "const";
+              value: [
                 140,
                 151,
                 37,
@@ -226,146 +215,116 @@ export type RevvekCapstone = {
                 233,
                 248,
                 89
-              ]
-            }
-          }
+              ];
+            };
+          };
         },
         {
-          "name": "systemProgram",
-          "address": "11111111111111111111111111111111"
+          name: "systemProgram";
+          address: "11111111111111111111111111111111";
         },
         {
-          "name": "associatedTokenProgram",
-          "address": "ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL"
+          name: "associatedTokenProgram";
+          address: "ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL";
         },
         {
-          "name": "tokenProgram",
-          "address": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
+          name: "tokenProgram";
+          address: "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA";
         }
-      ],
-      "args": []
+      ];
+      args: [];
     },
     {
-      "name": "bidForVehicle",
-      "discriminator": [
-        18,
-        165,
-        229,
-        13,
-        177,
-        218,
-        243,
-        125
-      ],
-      "accounts": [
+      name: "bidForVehicle";
+      discriminator: [18, 165, 229, 13, 177, 218, 243, 125];
+      accounts: [
         {
-          "name": "bidder",
-          "writable": true,
-          "signer": true
+          name: "bidder";
+          writable: true;
+          signer: true;
         },
         {
-          "name": "bidAccount",
-          "writable": true,
-          "pda": {
-            "seeds": [
+          name: "bidAccount";
+          writable: true;
+          pda: {
+            seeds: [
               {
-                "kind": "const",
-                "value": [
-                  98,
-                  105,
-                  100
-                ]
+                kind: "const";
+                value: [98, 105, 100];
               },
               {
-                "kind": "account",
-                "path": "listingAccount"
+                kind: "account";
+                path: "listingAccount";
               },
               {
-                "kind": "account",
-                "path": "bidder"
+                kind: "account";
+                path: "bidder";
               }
-            ]
-          }
+            ];
+          };
         },
         {
-          "name": "listingAccount",
-          "writable": true
+          name: "listingAccount";
+          writable: true;
         },
         {
-          "name": "systemProgram",
-          "address": "11111111111111111111111111111111"
+          name: "systemProgram";
+          address: "11111111111111111111111111111111";
         }
-      ],
-      "args": [
+      ];
+      args: [
         {
-          "name": "bidAmount",
-          "type": "u64"
+          name: "bidAmount";
+          type: "u64";
         }
-      ]
+      ];
     },
     {
-      "name": "newListing",
-      "discriminator": [
-        39,
-        51,
-        193,
-        78,
-        212,
-        140,
-        53,
-        22
-      ],
-      "accounts": [
+      name: "newListing";
+      discriminator: [39, 51, 193, 78, 212, 140, 53, 22];
+      accounts: [
         {
-          "name": "initialOwner",
-          "writable": true,
-          "signer": true
+          name: "initialOwner";
+          writable: true;
+          signer: true;
         },
         {
-          "name": "listingAccount",
-          "writable": true,
-          "pda": {
-            "seeds": [
+          name: "listingAccount";
+          writable: true;
+          pda: {
+            seeds: [
               {
-                "kind": "const",
-                "value": [
-                  108,
-                  105,
-                  115,
-                  116,
-                  105,
-                  110,
-                  103
-                ]
+                kind: "const";
+                value: [108, 105, 115, 116, 105, 110, 103];
               },
               {
-                "kind": "account",
-                "path": "initialOwner"
+                kind: "account";
+                path: "initialOwner";
               },
               {
-                "kind": "account",
-                "path": "nftMint"
+                kind: "account";
+                path: "nftMint";
               }
-            ]
-          }
+            ];
+          };
         },
         {
-          "name": "nftMint",
-          "writable": true,
-          "signer": true
+          name: "nftMint";
+          writable: true;
+          signer: true;
         },
         {
-          "name": "nftVault",
-          "writable": true,
-          "pda": {
-            "seeds": [
+          name: "nftVault";
+          writable: true;
+          pda: {
+            seeds: [
               {
-                "kind": "account",
-                "path": "listingAccount"
+                kind: "account";
+                path: "listingAccount";
               },
               {
-                "kind": "const",
-                "value": [
+                kind: "const";
+                value: [
                   6,
                   221,
                   246,
@@ -398,16 +357,16 @@ export type RevvekCapstone = {
                   255,
                   0,
                   169
-                ]
+                ];
               },
               {
-                "kind": "account",
-                "path": "nftMint"
+                kind: "account";
+                path: "nftMint";
               }
-            ],
-            "program": {
-              "kind": "const",
-              "value": [
+            ];
+            program: {
+              kind: "const";
+              value: [
                 140,
                 151,
                 37,
@@ -440,91 +399,82 @@ export type RevvekCapstone = {
                 233,
                 248,
                 89
-              ]
-            }
-          }
+              ];
+            };
+          };
         },
         {
-          "name": "metadata",
-          "writable": true
+          name: "metadata";
+          writable: true;
         },
         {
-          "name": "masterEdition",
-          "writable": true
+          name: "masterEdition";
+          writable: true;
         },
         {
-          "name": "metadataProgram",
-          "address": "metaqbxxUerdq28cj1RbAWkYQm3ybzjb6a8bt518x1s"
+          name: "metadataProgram";
+          address: "metaqbxxUerdq28cj1RbAWkYQm3ybzjb6a8bt518x1s";
         },
         {
-          "name": "associatedTokenProgram",
-          "address": "ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL"
+          name: "associatedTokenProgram";
+          address: "ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL";
         },
         {
-          "name": "systemProgram",
-          "address": "11111111111111111111111111111111"
+          name: "systemProgram";
+          address: "11111111111111111111111111111111";
         },
         {
-          "name": "rent",
-          "address": "SysvarRent111111111111111111111111111111111"
+          name: "rent";
+          address: "SysvarRent111111111111111111111111111111111";
         },
         {
-          "name": "tokenProgram"
+          name: "tokenProgram";
         }
-      ],
-      "args": [
+      ];
+      args: [
         {
-          "name": "basePrice",
-          "type": "u64"
+          name: "basePrice";
+          type: "u64";
         },
         {
-          "name": "listingUriHash",
-          "type": "string"
+          name: "listingUriHash";
+          type: "string";
         },
         {
-          "name": "nftName",
-          "type": "string"
+          name: "nftName";
+          type: "string";
         },
         {
-          "name": "nftSymbol",
-          "type": "string"
+          name: "nftSymbol";
+          type: "string";
         },
         {
-          "name": "nftUri",
-          "type": "string"
+          name: "nftUri";
+          type: "string";
         }
-      ]
+      ];
     },
     {
-      "name": "relist",
-      "discriminator": [
-        67,
-        122,
-        80,
-        87,
-        12,
-        20,
-        216,
-        169
-      ],
-      "accounts": [
+      name: "relist";
+      discriminator: [67, 122, 80, 87, 12, 20, 216, 169];
+      accounts: [
         {
-          "name": "initialOwner",
-          "writable": true,
-          "signer": true
+          name: "initialOwner";
+          writable: true;
+          signer: true;
         },
         {
-          "name": "initialOwnerAta",
-          "writable": true,
-          "pda": {
-            "seeds": [
+          name: "initialOwnerAta";
+          writable: true;
+          pda: {
+            seeds: [
               {
-                "kind": "account",
-                "path": "initialOwner"
+                kind: "account";
+                path: "initialOwner";
               },
               {
-                "kind": "const",
-                "value": [
+                kind: "const";
+                value: [
                   6,
                   221,
                   246,
@@ -557,16 +507,16 @@ export type RevvekCapstone = {
                   255,
                   0,
                   169
-                ]
+                ];
               },
               {
-                "kind": "account",
-                "path": "nftMint"
+                kind: "account";
+                path: "nftMint";
               }
-            ],
-            "program": {
-              "kind": "const",
-              "value": [
+            ];
+            program: {
+              kind: "const";
+              value: [
                 140,
                 151,
                 37,
@@ -599,120 +549,86 @@ export type RevvekCapstone = {
                 233,
                 248,
                 89
-              ]
-            }
-          }
+              ];
+            };
+          };
         },
         {
-          "name": "listingAccount",
-          "writable": true,
-          "pda": {
-            "seeds": [
+          name: "listingAccount";
+          writable: true;
+          pda: {
+            seeds: [
               {
-                "kind": "const",
-                "value": [
-                  108,
-                  105,
-                  115,
-                  116,
-                  105,
-                  110,
-                  103
-                ]
+                kind: "const";
+                value: [108, 105, 115, 116, 105, 110, 103];
               },
               {
-                "kind": "account",
-                "path": "initialOwner"
+                kind: "account";
+                path: "initialOwner";
               },
               {
-                "kind": "account",
-                "path": "nftMint"
+                kind: "account";
+                path: "nftMint";
               }
-            ]
-          }
+            ];
+          };
         },
         {
-          "name": "metadata",
-          "writable": true,
-          "pda": {
-            "seeds": [
+          name: "metadata";
+          writable: true;
+          pda: {
+            seeds: [
               {
-                "kind": "const",
-                "value": [
-                  109,
-                  101,
-                  116,
-                  97,
-                  100,
-                  97,
-                  116,
-                  97
-                ]
+                kind: "const";
+                value: [109, 101, 116, 97, 100, 97, 116, 97];
               },
               {
-                "kind": "account",
-                "path": "metadataProgram"
+                kind: "account";
+                path: "metadataProgram";
               },
               {
-                "kind": "account",
-                "path": "nftMint"
+                kind: "account";
+                path: "nftMint";
               }
-            ]
-          }
+            ];
+          };
         },
         {
-          "name": "masterEdition",
-          "writable": true,
-          "pda": {
-            "seeds": [
+          name: "masterEdition";
+          writable: true;
+          pda: {
+            seeds: [
               {
-                "kind": "const",
-                "value": [
-                  109,
-                  101,
-                  116,
-                  97,
-                  100,
-                  97,
-                  116,
-                  97
-                ]
+                kind: "const";
+                value: [109, 101, 116, 97, 100, 97, 116, 97];
               },
               {
-                "kind": "account",
-                "path": "metadataProgram"
+                kind: "account";
+                path: "metadataProgram";
               },
               {
-                "kind": "account",
-                "path": "nftMint"
+                kind: "account";
+                path: "nftMint";
               },
               {
-                "kind": "const",
-                "value": [
-                  101,
-                  100,
-                  105,
-                  116,
-                  105,
-                  111,
-                  110
-                ]
+                kind: "const";
+                value: [101, 100, 105, 116, 105, 111, 110];
               }
-            ]
-          }
+            ];
+          };
         },
         {
-          "name": "nftVault",
-          "writable": true,
-          "pda": {
-            "seeds": [
+          name: "nftVault";
+          writable: true;
+          pda: {
+            seeds: [
               {
-                "kind": "account",
-                "path": "listingAccount"
+                kind: "account";
+                path: "listingAccount";
               },
               {
-                "kind": "const",
-                "value": [
+                kind: "const";
+                value: [
                   6,
                   221,
                   246,
@@ -745,16 +661,16 @@ export type RevvekCapstone = {
                   255,
                   0,
                   169
-                ]
+                ];
               },
               {
-                "kind": "account",
-                "path": "nftMint"
+                kind: "account";
+                path: "nftMint";
               }
-            ],
-            "program": {
-              "kind": "const",
-              "value": [
+            ];
+            program: {
+              kind: "const";
+              value: [
                 140,
                 151,
                 37,
@@ -787,137 +703,119 @@ export type RevvekCapstone = {
                 233,
                 248,
                 89
-              ]
-            }
-          }
+              ];
+            };
+          };
         },
         {
-          "name": "nftMint"
+          name: "nftMint";
         },
         {
-          "name": "metadataProgram",
-          "address": "metaqbxxUerdq28cj1RbAWkYQm3ybzjb6a8bt518x1s"
+          name: "metadataProgram";
+          address: "metaqbxxUerdq28cj1RbAWkYQm3ybzjb6a8bt518x1s";
         },
         {
-          "name": "associatedTokenProgram",
-          "address": "ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL"
+          name: "associatedTokenProgram";
+          address: "ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL";
         },
         {
-          "name": "systemProgram",
-          "address": "11111111111111111111111111111111"
+          name: "systemProgram";
+          address: "11111111111111111111111111111111";
         },
         {
-          "name": "rent",
-          "address": "SysvarRent111111111111111111111111111111111"
+          name: "rent";
+          address: "SysvarRent111111111111111111111111111111111";
         },
         {
-          "name": "tokenProgram"
+          name: "tokenProgram";
         }
-      ],
-      "args": [
+      ];
+      args: [
         {
-          "name": "listingUriHash",
-          "type": "string"
+          name: "listingUriHash";
+          type: "string";
         }
-      ]
+      ];
     }
-  ],
-  "accounts": [
+  ];
+  accounts: [
     {
-      "name": "bid",
-      "discriminator": [
-        143,
-        246,
-        48,
-        245,
-        42,
-        145,
-        180,
-        88
-      ]
+      name: "bid";
+      discriminator: [143, 246, 48, 245, 42, 145, 180, 88];
     },
     {
-      "name": "listing",
-      "discriminator": [
-        218,
-        32,
-        50,
-        73,
-        43,
-        134,
-        26,
-        58
-      ]
+      name: "listing";
+      discriminator: [218, 32, 50, 73, 43, 134, 26, 58];
     }
-  ],
-  "errors": [
+  ];
+  errors: [
     {
-      "code": 6000,
-      "name": "invalidBasePrice",
-      "msg": "Base Price must be greater than 0"
+      code: 6000;
+      name: "invalidBasePrice";
+      msg: "Base Price must be greater than 0";
     },
     {
-      "code": 6001,
-      "name": "invalidBidAmount",
-      "msg": "Bid Amount must be greater or equal to the base price"
+      code: 6001;
+      name: "invalidBidAmount";
+      msg: "Bid Amount must be greater or equal to the base price";
     }
-  ],
-  "types": [
+  ];
+  types: [
     {
-      "name": "bid",
-      "type": {
-        "kind": "struct",
-        "fields": [
+      name: "bid";
+      type: {
+        kind: "struct";
+        fields: [
           {
-            "name": "nftMint",
-            "type": "pubkey"
+            name: "nftMint";
+            type: "pubkey";
           },
           {
-            "name": "bidder",
-            "type": "pubkey"
+            name: "bidder";
+            type: "pubkey";
           },
           {
-            "name": "basePrice",
-            "type": "u64"
+            name: "basePrice";
+            type: "u64";
           },
           {
-            "name": "listingAccount",
-            "type": "pubkey"
+            name: "listingAccount";
+            type: "pubkey";
           },
           {
-            "name": "bump",
-            "type": "u8"
+            name: "bump";
+            type: "u8";
           }
-        ]
-      }
+        ];
+      };
     },
     {
-      "name": "listing",
-      "type": {
-        "kind": "struct",
-        "fields": [
+      name: "listing";
+      type: {
+        kind: "struct";
+        fields: [
           {
-            "name": "nftMint",
-            "type": "pubkey"
+            name: "nftMint";
+            type: "pubkey";
           },
           {
-            "name": "initialOwner",
-            "type": "pubkey"
+            name: "initialOwner";
+            type: "pubkey";
           },
           {
-            "name": "basePrice",
-            "type": "u64"
+            name: "basePrice";
+            type: "u64";
           },
           {
-            "name": "listingUriHash",
-            "type": "string"
+            name: "listingUriHash";
+            type: "string";
           },
           {
-            "name": "bump",
-            "type": "u8"
+            name: "bump";
+            type: "u8";
           }
-        ]
-      }
+        ];
+      };
     }
-  ]
+  ];
 };

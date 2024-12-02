@@ -96,6 +96,8 @@ describe("revvek_capstone", () => {
     const listingAccount = await getListingAccount();
     const nftVault = await getVault();
 
+    // program.
+
     const tx = await program.methods
       .newListing(new anchor.BN(100), "", name, symbol, uri)
       .accountsPartial({
